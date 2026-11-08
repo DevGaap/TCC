@@ -1,0 +1,19 @@
+# Saída de compilação do ESP-IDF
+build/
+sdkconfig
+sdkconfig.old
+
+# Ambiente virtual do Python
+.venv/
+__pycache__/
+*.pyc
+
+# Credenciais da rede (use o wifi_config.example.json como modelo)
+wifi_config.json
+
+# Editor e sistema
+.vscode/
+*.code-workspace
+.DS_Store
+Thumbs.db
+desktop.ini

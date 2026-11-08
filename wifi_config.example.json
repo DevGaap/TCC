@@ -1,0 +1,6 @@
+{
+    "ssid": "NETWORK_NAME",
+    "password": "NETWORK_PASSWORD",
+    "server_ip": "192.168.0.10",
+    "server_port": 8080
+}

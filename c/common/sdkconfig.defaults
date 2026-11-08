@@ -1,0 +1,17 @@
+CONFIG_IDF_TARGET="esp32"
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+
+# Mesma frequência usada no MicroPython (micropython/common/config.py)
+CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240=y
+
+# -O2 em vez do -Og padrão, que é pensado para depuração e deixaria o C mais lento do que é
+CONFIG_COMPILER_OPTIMIZATION_PERF=y
+
+# O teste ocupa a CPU0 por minutos sem pausa; sem isso o watchdog fica reclamando na serial
+CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU0=n
+
+CONFIG_FREERTOS_HZ=1000
+
+# Depois de gravar, a placa fica parada no bootloader em vez de começar o teste.
+# Assim o teste só roda quando a placa for ligada na fonte, nunca pela USB do notebook.
+CONFIG_ESPTOOLPY_AFTER_NORESET=y
