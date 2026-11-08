@@ -17,3 +17,6 @@ wifi_config.json
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Quadros extraídos dos vídeos (dá para gerar de novo com o extract_frames.py)
+results/**/frames/

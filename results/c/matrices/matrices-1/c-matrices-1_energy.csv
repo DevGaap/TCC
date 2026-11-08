@@ -1,2 +1,2 @@
 language,test,name,iterations,duration_s,mean_us,checksum,source,samples,coverage,mean_voltage_v,mean_current_a,min_current_a,max_current_a,mean_power_w,energy_j,charge_mah,meter_charge_mah,idle_power_w,net_energy_j,energy_per_iteration_mj,net_energy_per_iteration_mj
-C,2,matrices,164285,300.001,1820,795024,single_reading,1,,5.0,0.07,,,0.35,105.0,5.833,,0.2,45.0,0.63914,0.27392
+C,2,matrices,164285,300.001,1820,795024,c-matrices-1_power.csv,300,1.0,5.0,0.0699,0.04,0.07,0.3497,104.925,5.829,,0.2,44.925,0.63868,0.27346

@@ -1,2 +1,2 @@
 language,test,name,iterations,duration_s,mean_us,checksum,source,samples,coverage,mean_voltage_v,mean_current_a,min_current_a,max_current_a,mean_power_w,energy_j,charge_mah,meter_charge_mah,idle_power_w,net_energy_j,energy_per_iteration_mj,net_energy_per_iteration_mj
-MicroPython,2,matrices,754,300.238,397998,795024,single_reading,1,,5.0,0.07,,,0.35,105.083,5.838,,0.2,45.036,139.36777,59.72905
+MicroPython,2,matrices,754,300.238,397998,795024,micropython-matrices-2_power.csv,300,1.0,5.0,0.0699,0.07,0.07,0.3497,105.004,5.834,,0.2,44.956,139.26267,59.62394

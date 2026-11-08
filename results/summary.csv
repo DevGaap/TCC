@@ -1,7 +1,7 @@
 test_name,language,test,name,runs,sources,mean_us_mean,mean_us_stdev,mean_power_w_mean,mean_power_w_stdev,idle_power_w_mean,idle_power_w_stdev,energy_j_mean,energy_j_stdev,energy_per_iteration_mj_mean,energy_per_iteration_mj_stdev,net_energy_per_iteration_mj_mean,net_energy_per_iteration_mj_stdev
-c-matrices,C,2,matrices,5,single_reading,1820.0,0.0,0.35,0.0,0.2,0.0,105.0,0.0,0.63914,0.0,0.27392,0.0
-c-primes,C,1,primes,5,single_reading,3791.0,0.0,0.3,0.0,0.2,0.0,90.0004,0.00055,1.13898,1e-05,0.37966,0.0
-c-sorting,C,3,sorting,5,single_reading,10426.0,0.0,0.35,0.0,0.2,0.0,105.003,0.0,3.651,0.0,1.56471,0.0
-micropython-matrices,MicroPython,2,matrices,5,single_reading,399288.2,1541.30584,0.35,0.0,0.2,0.0,105.0868,0.04321,139.819,0.53897,59.92243,0.23099
-micropython-primes,MicroPython,1,primes,5,single_reading,424618.0,0.0,0.3,0.0,0.2,0.0,90.086,0.0,127.42065,0.0,42.47355,0.0
-micropython-sorting,MicroPython,3,sorting,5,single_reading,1669158.8,7.85493,0.3,0.0,0.2,0.0,90.1412,0.00045,500.783,0.00217,166.92767,0.00073
+c-matrices,C,2,matrices,5,c-matrices-1_power.csv;c-matrices-2_power.csv;c-matrices-3_power.csv;c-matrices-4_power.csv;c-matrices-5_power.csv,1820.0,0.0,0.34974,5e-05,0.20094,0.0021,104.93,0.01118,0.63871,7e-05,0.27178,0.00384
+c-primes,C,1,primes,5,c-primes-1_power.csv;c-primes-2_power.csv;c-primes-3_power.csv;c-primes-4_power.csv;c-primes-5_power.csv,3791.0,0.0,0.2998,0.0,0.2,0.0,89.95,0.0,1.13835,0.0,0.37903,0.0
+c-sorting,C,3,sorting,5,c-sorting-1_power.csv;c-sorting-2_power.csv;c-sorting-3_power.csv;c-sorting-4_power.csv;c-sorting-5_power.csv,10426.0,0.0,0.3497,0.0,0.2,0.0,104.927,0.0,3.64835,0.0,1.56205,0.0
+micropython-matrices,MicroPython,2,matrices,5,micropython-matrices-1_power.csv;micropython-matrices-2_power.csv;micropython-matrices-3_power.csv;micropython-matrices-4_power.csv;micropython-matrices-5_power.csv,399288.2,1541.30584,0.34976,0.00013,0.2,0.0,105.0212,0.05403,139.73192,0.57018,59.83516,0.26359
+micropython-primes,MicroPython,1,primes,5,micropython-primes-1_power.csv;micropython-primes-2_power.csv;micropython-primes-3_power.csv;micropython-primes-4_power.csv;micropython-primes-5_power.csv,424618.0,0.0,0.29992,0.00011,0.20004,5e-05,90.062,0.02739,127.38649,0.03873,42.41692,0.02929
+micropython-sorting,MicroPython,3,sorting,5,micropython-sorting-1_power.csv;micropython-sorting-2_power.csv;micropython-sorting-3_power.csv;micropython-sorting-4_power.csv;micropython-sorting-5_power.csv,1669158.8,7.85493,0.29984,9e-05,0.2,0.0,90.0928,0.02166,500.51513,0.12195,166.6598,0.12068

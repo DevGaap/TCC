@@ -1,2 +1,2 @@
 language,test,name,iterations,duration_s,mean_us,checksum,source,samples,coverage,mean_voltage_v,mean_current_a,min_current_a,max_current_a,mean_power_w,energy_j,charge_mah,meter_charge_mah,idle_power_w,net_energy_j,energy_per_iteration_mj,net_energy_per_iteration_mj
-C,1,primes,79018,300.001,3791,1229,single_reading,1,,5.0,0.06,,,0.3,90.0,5.0,,0.2,30.0,1.13898,0.37966
+C,1,primes,79018,300.001,3791,1229,c-primes-2_power.csv,300,1.0,5.0,0.06,0.04,0.06,0.2998,89.95,4.997,,0.2,29.95,1.13835,0.37903

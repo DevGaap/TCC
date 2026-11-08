@@ -1,2 +1,2 @@
 language,test,name,iterations,duration_s,mean_us,checksum,source,samples,coverage,mean_voltage_v,mean_current_a,min_current_a,max_current_a,mean_power_w,energy_j,charge_mah,meter_charge_mah,idle_power_w,net_energy_j,energy_per_iteration_mj,net_energy_per_iteration_mj
-MicroPython,1,primes,707,300.288,424618,1229,single_reading,1,,5.0,0.06,,,0.3,90.086,5.005,,0.2,30.029,127.42065,42.47355
+MicroPython,1,primes,707,300.288,424618,1229,micropython-primes-1_power.csv,300,1.0,5.0,0.06,0.06,0.06,0.3,90.082,5.005,,0.2001,29.985,127.41478,42.41149

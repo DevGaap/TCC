@@ -1,2 +1,2 @@
 language,test,name,iterations,duration_s,mean_us,checksum,source,samples,coverage,mean_voltage_v,mean_current_a,min_current_a,max_current_a,mean_power_w,energy_j,charge_mah,meter_charge_mah,idle_power_w,net_energy_j,energy_per_iteration_mj,net_energy_per_iteration_mj
-MicroPython,3,sorting,180,300.469,1669154,4714011,single_reading,1,,5.0,0.06,,,0.3,90.141,5.008,,0.2,30.047,500.78167,166.92722
+MicroPython,3,sorting,180,300.469,1669154,4714011,micropython-sorting-3_power.csv,300,1.0,5.0,0.06,0.06,0.06,0.2998,90.08,5.004,,0.2,29.986,500.44279,166.58834
