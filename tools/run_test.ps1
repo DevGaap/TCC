@@ -5,7 +5,7 @@
 .DESCRIPTION
   1. Grava o programa pela USB. A placa NÃO começa o teste ainda (o C fica parado no
      bootloader e o MicroPython fica no REPL).
-  2. Você tira a USB e liga a placa na fonte, com o medidor no meio.
+  2. Você tira a USB e liga a placa na fonte (modo C.V, 5 V).
   3. A placa faz o teste com o Wi-Fi desligado e, no fim, manda os resultados para o
      servidor, que este script deixa aberto até a rodada chegar.
 
@@ -83,8 +83,8 @@ else {
 Write-Host ""
 Write-Host "Programa gravado. A placa ainda NÃO está rodando o teste."
 Write-Host "  1. Tire o cabo USB do notebook."
-Write-Host "  2. Comece a filmar o medidor e o LED da placa juntos."
-Write-Host "  3. Ligue: fonte -> medidor -> placa. Isso liga a placa e começa a rodada."
+Write-Host "  2. Comece a filmar o display da fonte e o LED da placa juntos."
+Write-Host "  3. Ligue a placa na fonte (C.V, 5 V). Isso liga a placa e começa a rodada."
 Write-Host "  4. LED aceso fixo (uns 10 s depois) = teste rodando."
 Write-Host "  5. LED apagou (5 min depois) = fim do teste. Espere mais uns 10 s e pare o vídeo."
 Write-Host "  6. LED piscando rápido = enviando pelo Wi-Fi. Apagou de vez = enviado."

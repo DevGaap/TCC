@@ -1,0 +1,17 @@
+Anotações da rodada micropython-primes-3 (08/11/2026 10:27)
+
+alimentação: fonte de bancada chaveada AFR FA-3005-M em modo C.V (tensão constante) ajustada em 5 V -> placa, sem a USB do notebook
+medidor: display da própria fonte (AFR FA-3005-M, 3 dígitos, ~10 mA de resolução) (o UTS-10 foi deixado de lado por ser instável)
+vídeo: VID_20261108_102722.mp4 (gravação do celular), guardado em tcc_videos/micropython/primes/primes-3/micropython-primes-3_video.mp4
+
+leituras no fim do teste (opcional, só para conferência):
+  tensão (V): 5,00 (constante no display da fonte durante toda a rodada)
+  corrente (A): 0,06
+  corrente na parada antes / depois do teste (A): 0,04 / 0,04
+
+observações:
+  Corrente lida no display da fonte (resolução de 0,01 A) em cada trecho da rodada:
+    parada antes do teste (10 s, LED apagado): 0,04 A
+    teste (300 s, LED aceso): 0,06 A fixo, sem variar
+    parada depois do teste (10 s, antes de enviar): 0,04 A
+  Mesmas leituras das rodadas micropython-primes-1 e micropython-primes-2.

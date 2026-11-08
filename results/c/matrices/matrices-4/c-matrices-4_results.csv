@@ -1,0 +1,2 @@
+pc_time,language,test,name,iterations,duration_ms,mean_us,min_us,max_us,stdev_us,checksum,heap_before,heap_after
+2026-11-08T11:39:05.385,C,2,matrices,164285,300000,1820,1816,1833,2,795024,261948,261948

@@ -82,7 +82,7 @@ cd c\blink; idf.py build; idf.py -p COM3 flash
 | Conversor USB-serial | **CH9102** |
 | Porta no notebook | **COM3** |
 | LED da placa | GPIO2 (usado como marcador do teste) |
-| Alimentação nas medições | fonte de bancada 5 V → medidor USB **Exbom UTS-10** → placa |
+| Alimentação nas medições | fonte de bancada chaveada **AFR FA-3005-M** em modo C.V, 5 V → placa; corrente e tensão lidas no display da fonte (o UTS-10 foi abandonado por ser instável) |
 
 ---
 
@@ -91,6 +91,8 @@ cd c\blink; idf.py build; idf.py -p COM3 flash
 ```
 tcc/
 ├── README.md
+├── docs/
+│   └── micropython_wifi_out_of_memory.md  ← erro de memória do Wi-Fi no teste 2 e como foi resolvido
 ├── wifi_config.json            ← rede, senha, IP e porta do notebook (C e MicroPython leem daqui)
 ├── c/
 │   ├── common/                 ← componente ESP-IDF compartilhado pelos 3 testes
@@ -114,7 +116,7 @@ tcc/
 ├── tools/                      ← tudo o que roda no notebook
 │   ├── run_test.ps1            ← grava a placa pela USB e abre o servidor
 │   ├── wifi_server.py          ← recebe a rodada pelo Wi-Fi e salva em results/
-│   ├── extract_frames.py       ← vídeo do medidor → quadros + tabela de leituras
+│   ├── extract_frames.py       ← vídeo do display da fonte → quadros + tabela de leituras
 │   ├── compute_energy.py       ← leituras ao longo do tempo → energia da rodada
 │   └── summarize.py            ← todas as rodadas → tabelas do TCC
 └── results/
@@ -286,9 +288,9 @@ PowerShell bloquear o script, rode antes `Set-ExecutionPolicy -Scope CurrentUser
 
 1. O script grava a placa pela USB e abre o servidor. A placa **não** começa o teste sozinha.
 2. **Tire o cabo USB do notebook.**
-3. Posicione o celular para filmar **o visor do medidor e o LED da placa juntos**, com o celular
-   parado (num suporte), sem reflexo no visor. **Comece a filmar.**
-4. Ligue **fonte → medidor → placa**. Isso liga a placa e começa a rodada.
+3. Posicione o celular para filmar **o display da fonte (tensão e corrente) e o LED da placa
+   juntos**, com o celular parado (num suporte), sem reflexo no display. **Comece a filmar.**
+4. Ligue a placa na **fonte (modo C.V, 5 V)**. Isso liga a placa e começa a rodada.
 5. LED aceso fixo (uns 10 s depois): o teste começou. Não precisa anotar nada, o vídeo registra.
 6. LED apagou (5 min depois): o teste acabou. Espere mais uns 10 s (parada final) e pare o vídeo.
 7. LED piscando rápido: a placa está enviando. Quando apaga de vez, o servidor mostra a rodada
@@ -299,11 +301,15 @@ PowerShell bloquear o script, rode antes `Set-ExecutionPolicy -Scope CurrentUser
 Como pediu o orientador, a potência é registrada durante a rodada inteira, e não lida uma vez só.
 O vídeo é transformado numa tabela de leituras:
 
-1. Copie o vídeo para a pasta da rodada com o nome `<rodada>_video.mp4` (ex.: `c-primes-1_video.mp4`).
+1. Guarde o vídeo **fora do repositório**, em `../tcc_videos/` (ao lado da pasta `tcc`), com a
+   mesma estrutura do `results/`: `tcc_videos/c/primes/primes-1/c-primes-1_video.mp4`. Cada vídeo
+   tem uns 830 MB, por isso não vai para o git. O nome original do celular (`VID_<data>_<hora>`)
+   fica anotado no `_notes.txt` da rodada. Ao extrair os quadros, aponte para ele com `--video`
+   (caminho completo).
 2. Extraia os quadros:
 
    ```powershell
-   micropython\.venv\Scripts\python.exe tools\extract_frames.py results\c\primes\primes-1
+   micropython\.venv\Scripts\python.exe tools\extract_frames.py results\c\primes\primes-1 --video "$PWD\..\tcc_videos\c\primes\primes-1\c-primes-1_video.mp4"
    ```
 
    Isso gera `frames/` (um quadro por segundo), `sheets/` (20 quadros por folha, para ler mais
@@ -311,7 +317,8 @@ O vídeo é transformado numa tabela de leituras:
    Opções úteis: `--crop x,y,largura,altura` (recorta só o visor) e `--led x,y,largura,altura`
    (região do LED; o script detecta sozinho quando ele acendeu e sugere o `--start-at`).
 3. Preencha no `c-primes-1_power.csv` a tensão (`voltage_v`) e a corrente (`current_a`) de cada
-   quadro. O `charge_mah` é opcional e serve para conferir. Tanto `0.07` quanto `0,07` funcionam.
+   quadro. Deixe o `charge_mah` vazio (a fonte não acumula mAh). Tanto `0.06` quanto `0,06`
+   funcionam. Se a leitura ficar constante, um quadro a cada 10 s já basta (`--every 10`).
    Também dá para mandar as folhas para o Claude ler e preencher.
 4. Calcule a energia, informando o segundo do vídeo em que o LED acendeu:
 
@@ -338,10 +345,11 @@ desligue a placa, comece a filmar e ligue de novo. O servidor numera sozinho (`p
 Outras opções do `extract_frames.py`: `--every 0.5` (um quadro a cada meio segundo) e
 `--video outro.mp4` (se a pasta tiver mais de um vídeo).
 
-Sem vídeo, dá para calcular com uma leitura só do medidor (menos confiável, só para comparação):
+Sem vídeo, dá para calcular com uma leitura só do display da fonte (menos confiável, só para
+comparação):
 
 ```powershell
-micropython\.venv\Scripts\python.exe tools\compute_energy.py <pasta_da_rodada> --voltage 4.80 --current 0.07 --charge-mah 20 --idle-current 0.05
+micropython\.venv\Scripts\python.exe tools\compute_energy.py <pasta_da_rodada> --voltage 5.00 --current 0.06 --idle-current 0.04
 ```
 
 ### 6.3 Se algo der errado
@@ -381,7 +389,7 @@ O horário de cada rodada fica registrado dentro dela (`_log.txt`, `_events.csv`
 | `c-primes-1_results.csv` | `wifi_server.py` | execuções, tempos, checksum e memória |
 | `c-primes-1_events.csv` | `wifi_server.py` | IDLE, START, END e DONE, com o horário e o ms da placa |
 | `c-primes-1_notes.txt` | `wifi_server.py` | modelo para anotar a montagem e observações |
-| `c-primes-1_video.mp4` | você | vídeo do medidor e do LED |
+| `c-primes-1_video.mp4` | você | vídeo do display da fonte e do LED |
 | `frames/`, `sheets/` | `extract_frames.py` | quadros do vídeo |
 | `c-primes-1_power.csv` | `extract_frames.py` + você | leituras ao longo do tempo |
 | `c-primes-1_energy.csv` | `compute_energy.py` | potência, energia e energia por execução |
@@ -426,7 +434,6 @@ relógio da placa (ms de cada evento).
 | Potência ociosa | média de P nas duas paradas, sem o primeiro e o último segundo |
 | Energia líquida | energia do teste − potência ociosa × duração: só o custo de processar |
 | **Energia por execução** | energia ÷ execuções (mJ): **a métrica que compara as linguagens** |
-| Conferência do mAh | integral da corrente comparada com o mAh acumulado pelo medidor |
 
 Mesmo que a potência seja parecida nas duas linguagens, a energia por execução tende a ser bem
 menor em C, porque cada execução termina muito antes.
@@ -437,13 +444,15 @@ execução que o C, em cada teste).
 
 ### 8.1 Limitações do medidor
 
-- O UTS-10 mostra a corrente com 2 casas (0,07 A), ou seja, resolução de 10 mA, cerca de 14% de
-  70 mA. Diferenças pequenas entre C e MicroPython podem ficar escondidas nessa resolução.
-- Nas rodadas antigas, a corrente no visor (0,07 A) não batia com o mAh acumulado (cerca de 20 mAh
-  em 5 min, o que daria 0,24 A). Com um ventilador (carga constante), o medidor bateu certinho.
-  A suspeita é a corrente do ESP32 variar rápido demais para o visor. O registro ao longo do
-  tempo, com a conferência do mAh, serve justamente para esclarecer isso.
-- Se o vídeo não for suficiente, o próximo passo é um **sensor INA219 ou INA226** (corrente e
+- As leituras vêm do display da fonte **AFR FA-3005-M** (3 dígitos), com corrente em passos de
+  0,01 A, ou seja, resolução de 10 mA: cerca de 17% de 60 mA. A diferença entre parado (0,04 A) e
+  em teste (0,06 A) são só dois passos, e diferenças pequenas entre C e MicroPython podem ficar
+  escondidas nessa resolução. O display também atualiza devagar, então variações rápidas da
+  corrente do ESP32 não aparecem.
+- A fonte não acumula mAh, então não há como conferir a integral da corrente por um contador.
+- O medidor USB Exbom UTS-10, usado no começo, foi abandonado: as leituras eram instáveis e a
+  corrente no visor não batia com o mAh acumulado.
+- Se a resolução do display não for suficiente, o próximo passo é um **sensor INA219 ou INA226** (corrente e
   tensão por I²C, resolução de cerca de 0,1 mA) ligado a um segundo microcontrolador. O
   `compute_energy.py` já aceita esse tipo de registro: basta um CSV com `pc_time` (horário do
   notebook) no lugar de `t_s`, e o alinhamento passa a ser automático, sem `--start-at`.
@@ -462,6 +471,8 @@ execução que o C, em cada teste).
 | Medidor não funcionava pela USB do notebook | alimentar por fonte própria e mandar os dados pelo Wi-Fi |
 | Com os três testes no mesmo programa, só dava para ler o consumo total | um programa por teste, 300 s cada |
 | Leitura única do medidor inconsistente (visor × mAh) e igual em C e MicroPython | registrar a potência ao longo do tempo pelo vídeo (seção 6.2) |
+| MicroPython, teste 2: o LED apagava no fim e a rodada nunca era enviada (`OSError: WiFi Out of Memory`). Durante o teste o MicroPython aumenta o heap pegando RAM do sistema e não devolve; nas matrizes sobravam uns 18 KB | depois do DONE, a placa grava o registro na flash (`pending_send.txt`) e faz soft reset, que devolve a RAM; o `main.py` roda de novo, só envia e apaga o arquivo. A medição não muda, e o `ticks_ms` não zera no soft reset. Detalhes e medições em [docs/micropython_wifi_out_of_memory.md](docs/micropython_wifi_out_of_memory.md) |
+| Medidor USB UTS-10 instável | ler tensão e corrente direto no display da fonte AFR FA-3005-M (modo C.V, 5 V) |
 | Projeto dentro do OneDrive | o OneDrive sincroniza `build/` e `.venv/`, o que deixa a compilação lenta; se incomodar, excluir essas pastas da sincronização |
 
 ---
@@ -488,8 +499,9 @@ em 182.689 µs no C e 11.134.965 µs no MicroPython; heap livre de 303.296 e 163
 - [x] Testes 1, 2 e 3 escritos nas duas linguagens, com checksums conferidos
 - [x] Alimentação por fonte e envio dos resultados por Wi-Fi
 - [x] Ferramentas para registrar a potência pelo vídeo e calcular a energia
-- [ ] Fazer uma rodada de teste com vídeo e conferir se a integral da corrente bate com o mAh
-- [ ] Rodar os testes 1, 2 e 3 em C e em MicroPython, pelo menos 5 rodadas de cada
+- [x] Rodar os testes 1, 2 e 3 em C e em MicroPython, pelo menos 5 rodadas de cada
+  (feito em 08/11/2026: 30 rodadas, todas com checksum certo; leituras do display em cada `_notes.txt`)
+- [ ] Extrair as leituras dos vídeos e calcular a energia (`compute_energy.py`)
 - [ ] Gerar as tabelas (`summarize.py`) e os gráficos do TCC
 - [ ] (Se o vídeo não tiver resolução suficiente) montar o registrador com INA219/INA226
 - [ ] (Opcional) Testar `@micropython.native` e `@micropython.viper` como meio-termo

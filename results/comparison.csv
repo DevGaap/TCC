@@ -1,0 +1,4 @@
+test,c_runs,micropython_runs,c_time,micropython_time,time_ratio,c_power,micropython_power,power_ratio,c_energy_per_iteration,micropython_energy_per_iteration,energy_per_iteration_ratio,c_net_energy_per_iteration,micropython_net_energy_per_iteration,net_energy_per_iteration_ratio
+matrices,5,5,1820.0,399288.2,219.39,0.35,0.35,1.0,0.63914,139.819,218.76,0.27392,59.92243,218.76
+primes,5,5,3791.0,424618.0,112.01,0.3,0.3,1.0,1.13898,127.42065,111.87,0.37966,42.47355,111.87
+sorting,5,5,10426.0,1669158.8,160.1,0.35,0.3,0.86,3.651,500.783,137.16,1.56471,166.92767,106.68

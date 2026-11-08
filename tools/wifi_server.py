@@ -49,14 +49,14 @@ EVENTS = ("IDLE", "START", "END", "DONE")
 NOTES_TEMPLATE = """\
 Anotações da rodada {name} ({when})
 
-alimentação: (ex.: fonte de bancada em 5,00 V -> medidor USB -> placa, sem a USB do notebook)
-medidor: Exbom UTS-10
+alimentação: fonte de bancada chaveada AFR FA-3005-M em modo C.V (tensão constante) ajustada em 5 V -> placa, sem a USB do notebook
+medidor: display da própria fonte (AFR FA-3005-M, 3 dígitos, ~10 mA de resolução)
 vídeo: (nome do arquivo, se filmou)
 
 leituras no fim do teste (opcional, só para conferência):
   tensão (V):
   corrente (A):
-  mAh acumulado:
+  corrente na parada antes / depois do teste (A):
 
 observações:
 """

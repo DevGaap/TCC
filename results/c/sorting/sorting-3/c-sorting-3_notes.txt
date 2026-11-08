@@ -1,0 +1,17 @@
+Anotações da rodada c-sorting-3 (08/11/2026 13:32)
+
+alimentação: fonte de bancada chaveada AFR FA-3005-M em modo C.V (tensão constante) ajustada em 5 V -> placa, sem a USB do notebook
+medidor: display da própria fonte (AFR FA-3005-M, 3 dígitos, ~10 mA de resolução)
+vídeo: VID_20261108_133209.mp4 (gravação do celular), guardado em tcc_videos/c/sorting/sorting-3/c-sorting-3_video.mp4
+
+leituras no fim do teste (opcional, só para conferência):
+  tensão (V): 5,00
+  corrente (A): 0,07
+  corrente na parada antes / depois do teste (A): 0,04 / 0,04
+
+observações:
+  Corrente lida no display da fonte (resolução de 0,01 A) em cada trecho da rodada:
+    parada antes do teste (10 s, LED apagado): 0,04 A
+    teste (300 s, LED aceso): 0,07 A
+    parada depois do teste (10 s, antes de enviar): 0,04 A
+  Mesmas leituras das rodadas c-sorting-1 e c-sorting-2.

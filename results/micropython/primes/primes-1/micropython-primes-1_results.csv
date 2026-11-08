@@ -1,0 +1,2 @@
+pc_time,language,test,name,iterations,duration_ms,mean_us,min_us,max_us,stdev_us,checksum,heap_before,heap_after
+2026-11-08T10:16:06.146,MicroPython,1,primes,707,300287,424618,424610,424632,4,1229,158944,139120

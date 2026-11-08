@@ -1,0 +1,2 @@
+pc_time,language,test,name,iterations,duration_ms,mean_us,min_us,max_us,stdev_us,checksum,heap_before,heap_after
+2026-11-08T09:34:56.975,C,1,primes,79018,300001,3791,3787,3803,2,1229,270140,270140

@@ -1,0 +1,7 @@
+test_name,language,test,name,runs,sources,mean_us_mean,mean_us_stdev,mean_power_w_mean,mean_power_w_stdev,idle_power_w_mean,idle_power_w_stdev,energy_j_mean,energy_j_stdev,energy_per_iteration_mj_mean,energy_per_iteration_mj_stdev,net_energy_per_iteration_mj_mean,net_energy_per_iteration_mj_stdev
+c-matrices,C,2,matrices,5,single_reading,1820.0,0.0,0.35,0.0,0.2,0.0,105.0,0.0,0.63914,0.0,0.27392,0.0
+c-primes,C,1,primes,5,single_reading,3791.0,0.0,0.3,0.0,0.2,0.0,90.0004,0.00055,1.13898,1e-05,0.37966,0.0
+c-sorting,C,3,sorting,5,single_reading,10426.0,0.0,0.35,0.0,0.2,0.0,105.003,0.0,3.651,0.0,1.56471,0.0
+micropython-matrices,MicroPython,2,matrices,5,single_reading,399288.2,1541.30584,0.35,0.0,0.2,0.0,105.0868,0.04321,139.819,0.53897,59.92243,0.23099
+micropython-primes,MicroPython,1,primes,5,single_reading,424618.0,0.0,0.3,0.0,0.2,0.0,90.086,0.0,127.42065,0.0,42.47355,0.0
+micropython-sorting,MicroPython,3,sorting,5,single_reading,1669158.8,7.85493,0.3,0.0,0.2,0.0,90.1412,0.00045,500.783,0.00217,166.92767,0.00073

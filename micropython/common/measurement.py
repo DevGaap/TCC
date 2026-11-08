@@ -3,7 +3,8 @@ Medição de um teste, usada pelos três programas em MicroPython.
 Faz exatamente o mesmo que c/common/measurement.c e gera as mesmas linhas.
 
 Sequência: parada IDLE_BEFORE_S -> teste por TEST_DURATION_S (LED aceso)
--> parada IDLE_AFTER_S -> DONE -> envio pelo Wi-Fi (LED piscando rápido).
+-> parada IDLE_AFTER_S -> DONE -> registro na flash e soft reset -> envio pelo Wi-Fi
+(LED piscando rápido).
 
 Cada linha é impressa (útil para depurar com o cabo USB) e também guardada em memória,
 para ser enviada quando a medição acabar. O módulo network só é importado depois do DONE.
@@ -100,12 +101,51 @@ def _run_test(number, name, prepare, workload):
                checksum, heap_before, gc.mem_free()))
 
 
+# Registro da rodada guardado na flash entre o fim do teste e o envio (ver run())
+PENDING_FILE = "pending_send.txt"
+UNSENT_FILE = "unsent_send.txt"
+
+
+def _send_pending():
+    """Se houver uma rodada esperando envio, manda pelo Wi-Fi e devolve True.
+
+    A primeira linha do arquivo é o ticks_ms de quando ele foi gravado. Depois de um soft reset
+    o relógio continua contando, então o ticks_ms atual é maior. Se a placa foi desligada no meio
+    do envio, o relógio recomeçou do zero: aí o arquivo é de uma rodada antiga, fica guardado em
+    UNSENT_FILE e o teste roda normalmente.
+    """
+    try:
+        with open(PENDING_FILE) as f:
+            saved_ms = int(f.readline())
+            log = f.read()
+    except (OSError, ValueError):
+        return False
+
+    if time.ticks_ms() < saved_ms:
+        print("rodada antiga sem envio encontrada; guardada em %s" % UNSENT_FILE)
+        try:
+            os.remove(UNSENT_FILE)
+        except OSError:
+            pass
+        os.rename(PENDING_FILE, UNSENT_FILE)
+        return False
+
+    import wifi_sender
+    wifi_sender.send(log, _led)
+    os.remove(PENDING_FILE)
+    return True
+
+
 def run(number, name, prepare, workload):
     """Roda a sequência inteira de um teste e depois manda os resultados pelo Wi-Fi.
 
     prepare: função opcional chamada antes do teste, fora da medição
     workload: função que faz a carga uma vez e devolve o checksum
     """
+    # Depois do soft reset do fim da rodada, o main.py roda de novo e cai aqui só para enviar
+    if _send_pending():
+        return
+
     try:
         machine.freq(config.CPU_FREQ_MHZ * 1_000_000)
         _record_header(number, name)
@@ -116,6 +156,12 @@ def run(number, name, prepare, workload):
     finally:
         _marker(0)
 
-    # Daqui para frente a medição já acabou, então o consumo do Wi-Fi não atrapalha
-    import wifi_sender
-    wifi_sender.send("\n".join(_log) + "\n", _led)
+    # Daqui para frente a medição já acabou, então o consumo do Wi-Fi não atrapalha.
+    # Não dá para ligar o Wi-Fi direto: durante o teste o MicroPython aumenta o próprio heap
+    # pegando RAM do sistema (nas matrizes, sobram uns 18 KB) e não devolve, e o Wi-Fi falha
+    # com "WiFi Out of Memory". Então o registro vai para a flash e o soft reset devolve a RAM.
+    # O ticks_ms não zera no soft reset, então os horários do SEND continuam certos.
+    with open(PENDING_FILE, "w") as f:
+        f.write("%d\n" % time.ticks_ms())
+        f.write("\n".join(_log) + "\n")
+    machine.soft_reset()
